@@ -179,3 +179,7 @@ const pie_chart = new Chart(pie_ctx, {
     ],
   },
 })
+
+const text = domestic_sum_manufacture.join('・')
+//  テキストを id = profit-rate-high-month を指定し表示
+document.getElementById('domestic_sum_manufacture').textContent = text
