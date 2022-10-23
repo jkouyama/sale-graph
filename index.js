@@ -1,127 +1,130 @@
-// 年間の売上と利益のデータ
+// 業界
+const industries = ['manufacture', 'financial', 'real_estate']
+
+// 売上と利益のデータ
 const report = [
   {
-    month: '1',
-    revenue: 7700000,
-    profit: 1166900,
+    industry: 'manufacture',
+    department: 'chemical',
+    domestic: 8060786,
+    overseas: 7047191,
   },
   {
-    month: '2',
-    revenue: 8500000,
-    profit: 320300,
+    industry: 'financial',
+    department: 'insurance',
+    domestic: 9859531,
+    overseas: 7620080,
   },
   {
-    month: '3',
-    revenue: 8600040,
-    profit: 900030,
+    industry: 'manufacture',
+    department: 'paper',
+    domestic: 3373828,
+    overseas: 5384591,
   },
   {
-    month: '4',
-    revenue: 9000003,
-    profit: 1520000,
+    industry: 'real_estate',
+    department: 'house',
+    domestic: 8094797,
+    overseas: 5303474,
   },
   {
-    month: '5',
-    revenue: 8100000,
-    profit: 1220890,
+    industry: 'financial',
+    department: 'securities',
+    domestic: 8045496,
+    overseas: 9235759,
   },
   {
-    month: '6',
-    revenue: 8772652,
-    profit: 610300,
+    industry: 'real_estate',
+    department: 'hotel',
+    domestic: 3806430,
+    overseas: 5303474,
   },
   {
-    month: '7',
-    revenue: 8087550,
-    profit: 910300,
+    industry: 'manufacture',
+    department: 'oil',
+    domestic: 5453934,
+    overseas: 1977028,
   },
   {
-    month: '8',
-    revenue: 9985166,
-    profit: 543200,
+    industry: 'real_estate',
+    department: 'apartment',
+    domestic: 7803898,
+    overseas: 6480764,
   },
   {
-    month: '9',
-    revenue: 8448764,
-    profit: 741200,
-  },
-  {
-    month: '10',
-    revenue: 8406786,
-    profit: 342210,
-  },
-  {
-    month: '11',
-    revenue: 8094797,
-    profit: 710190,
-  },
-  {
-    month: '12',
-    revenue: 8838988,
-    profit: 815610,
+    industry: 'manufacture',
+    department: 'steel',
+    domestic: 9085945,
+    overseas: 5485068,
   },
 ]
 
-// グラフのラベルの空配列
-let report_label = []
 
-for (let i = 0; i < report.length; i++) {
-  // 連想配列から key を指定して、month の値を取得
-  let month = report[i].month
-  // month の後に月という文字を結合
-  month = month + '月'
-  // 連想配列から key を指定して、month の値を取得
-  report_label.push(month)
-}
 
-console.log(report_label)
+// 売上データの配列(部門)
+// const report_industry = report.map((el) => {
+//   return el.industry
+// })
+// // 部門データの配列
+// const report_department = report.map((el) => {
+//   return el.department
+// })
+// // 利益データの配列(国内)
+// const report_domesticprofit = report.map((el) => {
+//   return el.domesticprofit
+// })
+// // 利益データの配列(海外)
+// const report_overseasprofit = report.map((el) => {
+//   return el.overseasprofit
+// })
 
-// グラフの描画
 
-// chart を表示する canvas タグの id を指定
-const ctx = document.getElementById('myChart').getContext('2d')
-// Chart クラスをインスタンス化
-const myChart = new Chart(ctx, {
-  //グラフのタイプ
+const filtered_manufacture = report.filter((el) => {
+  return el.industry === 'manufacture'
+})
+
+// 棒グラフのラベル（部門名）
+bar_label = filtered_manufacture.map((el) => {
+  return el.department
+})
+
+// 棒グラフの国内の売上データ
+bar_domestic = filtered_manufacture.map((el) => {
+  return el.domestic
+})
+// 棒グラフの海外の売上データ
+bar_overseas = filtered_manufacture.map((el) => {
+  return el.overseas
+})
+
+// 棒グラフを描画する id = bar_chart の canvas タグを指定
+const bar_ctx = document.getElementById('bar_chart').getContext('2d')
+
+// 棒グラフを描画
+const bar_chart = new Chart(bar_ctx, {
   type: 'bar',
   data: {
-    //ラベル
-    labels: ['赤', '青', '黄色', '緑', '紫', '橙'],
-    // グラフで可視化するデータ
+    labels: bar_label,
     datasets: [
       {
-        label: '得票数', //ラベル
-        data: [12, 19, 3, 5, 2, 3], // データの数値
-        // 棒グラフの背景色
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)',
-        ],
-        // 棒グラフの枠線の色
-        borderColor: [
-          'rgba(255,99,132,1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
-        ],
-        // 棒グラフの枠線の太さ
+        label: '国内',
+        data: bar_domestic,
+        backgroundColor: 'rgba(255, 99, 132, 0.8)',
+        borderWidth: 1,
+      },
+      {
+        label: '海外',
+        data: bar_overseas,
+        backgroundColor: 'rgba(54, 162, 235, 0.8)',
         borderWidth: 1,
       },
     ],
   },
-  //グラフのオプション
   options: {
     scales: {
       yAxes: [
         {
           ticks: {
-            //y 軸のラベル、データを0からスタートするように指定
             beginAtZero: true,
           },
         },
@@ -130,3 +133,49 @@ const myChart = new Chart(ctx, {
   },
 })
 
+// 各業界の売上総額の変数
+// 初期値は0
+let domestic_sum_manufacture = 0
+let domestic_sum_financial = 0
+let domestic_sum_real_estate = 0
+
+// 繰り返し処理
+report.forEach((el) => {
+  if (el.industry === 'manufacture') {
+    // manufacture の売上総額に国内の売上を加算
+    domestic_sum_manufacture += el.domestic
+  } else if (el.industry === 'financial') {
+    // financial の売上総額に国内の売上を加算
+    domestic_sum_financial += el.domestic
+  } else {
+    // real_estate の売上総額に国内の売上を加算
+    domestic_sum_real_estate += el.domestic
+  }
+})
+
+// 円グラフを描画する id = pie_chart の canvas タグを指定
+const pie_ctx = document.getElementById('pie_chart').getContext('2d')
+
+// 円グラフを描画
+const pie_chart = new Chart(pie_ctx, {
+  type: 'pie',
+  data: {
+    labels: industries,
+    datasets: [
+      {
+        data: [
+          domestic_sum_manufacture,
+          domestic_sum_financial,
+          domestic_sum_real_estate,
+        ],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.5)',
+          'rgba(54, 162, 235, 0.5)',
+          'rgba(255, 206, 86, 0.5)',
+        ],
+
+        borderWidth: 1,
+      },
+    ],
+  },
+})
